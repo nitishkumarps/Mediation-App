@@ -95,3 +95,10 @@ video {
   width: 100%;
   z-index: -10;
 }
+.replay {
+  margin-bottom: 17px;
+}
+.activeSelect {
+  background: white;
+  color: black;
+}

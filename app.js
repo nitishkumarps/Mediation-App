@@ -18,41 +18,45 @@ timeDisplay.textContent = `${Math.floor(fakeDuration / 60)}:${Math.floor(
   fakeDuration % 60
 )}`;
 
-sounds.forEach(sound => {
-  sound.addEventListener("click", function() {
+sounds.forEach((sound) => {
+  sound.addEventListener("click", function () {
     song.src = this.getAttribute("data-sound");
     video.src = this.getAttribute("data-video");
     checkPlaying(song);
   });
 });
 
-play.addEventListener("click", function() {
+play.addEventListener("click", function () {
   checkPlaying(song);
 });
 
-replay.addEventListener("click", function() {
-    restartSong(song);
-    
-  });
+replay.addEventListener("click", function () {
+  restartSong(song);
+  song.pause();
+  video.pause();
+  play.src = "./svg/play.svg";
+});
 
+const restartSong = (song) => {
+  let currentTime = song.currentTime;
+  song.currentTime = 0;
+  console.log("ciao");
+};
 
-const restartSong = song =>{
-    let currentTime = song.currentTime;
-    song.currentTime = 0;
-    console.log("ciao")
-
-}
-
-timeSelect.forEach(option => {
-  option.addEventListener("click", function() {
+timeSelect.forEach((option) => {
+  option.addEventListener("click", function () {
     fakeDuration = this.getAttribute("data-time");
     timeDisplay.textContent = `${Math.floor(fakeDuration / 60)}:${Math.floor(
       fakeDuration % 60
     )}`;
+    restartSong(song);
+    song.pause();
+    video.pause();
+    play.src = "./svg/play.svg";
   });
 });
 
-const checkPlaying = song => {
+const checkPlaying = (song) => {
   if (song.paused) {
     song.play();
     video.play();
@@ -64,7 +68,7 @@ const checkPlaying = song => {
   }
 };
 
-song.ontimeupdate = function() {
+song.ontimeupdate = function () {
   let currentTime = song.currentTime;
   let elapsed = fakeDuration - currentTime;
   let seconds = Math.floor(elapsed % 60);
